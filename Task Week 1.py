@@ -39,3 +39,31 @@ else:
     print("The difference in average temperatures between July and May is not statistically significant.")
 
 print(f"P-value (exakt): {p_value:.20f}")
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Read the data and convert date
+df = pd.read_csv("wetter.csv")
+df["Datum"] = pd.to_datetime(df["Datum"])
+
+# Create a figure with two subplots side by side
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
+
+# Scatter plot of all temperature measurements by month
+sns.scatterplot(data=df, x=df["Datum"].dt.month, y="Temperatur", ax=ax1, alpha=0.5)
+ax1.set_title("Temperature Measurements by Month")
+ax1.set_xlabel("Month")
+ax1.set_ylabel("Temperature (°C)")
+ax1.set_xticks(range(1, 13))
+
+# Histogram of temperature distribution
+sns.histplot(data=df, x="Temperatur", bins=30, ax=ax2)
+ax2.set_title("Distribution of Temperatures")
+ax2.set_xlabel("Temperature (°C)")
+ax2.set_ylabel("Count")
+
+plt.tight_layout()
+plt.show()
+
